@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>GSHAX Tool: Create PSX GameShark Codes That Gain Code Execution Mid-Game</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #FFFFFF;
+      background-color: #000000;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #58D3F7;
+    }
+    a:visited {
+      color: #58D3F7;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      border: 2px double blue;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border: 2px double blue;
+    }
+    th {
+      border: 2px double blue;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+        border: 2px double blue;
+        padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">GSHAX Tool: Create PSX GameShark Codes That Gain Code Execution Mid-Game </h1>
+</header>
+<h1 id="alex-free.github.io"><a href="https://alex-free.github.io">alex-free.github.io</a></h1>
+<p>By Alex Free &amp; MottZilla</p>
+<p>GSHAX Tool is a portable open source program that <strong>can generate complete GSHAX codes from scratch.</strong> GSHAX Tool can output GSHAX codes to either a text file (.txt) or a real valid GameShark Lite save game file.</p>
+<h2 id="what-are-gshax-codes">What Are GSHAX Codes?</h2>
+<p>GSHAX codes are PSX GameShark codes that modify an existing function in a running game to <em>instead</em> execute custom MIPS assembly.</p>
+<figure>
+<img src="images/gshax-tool-wipeout-example.png" alt="GSHAX Tool Wipeout Example" /><figcaption aria-hidden="true">GSHAX Tool Wipeout Example</figcaption>
+</figure>
+<p>As an example of usefulness, GSHAX codes are used in <a href="https://alex-free.github.io/tonyhax-international">Tonyhax International</a> to load the Tonyhax International loader PS-EXE off of a memory card in slot 1, enabling the play of backup and import discs with a GameShark or other cheat device. This is very useful for the various PSX cheat devices <strong>that do not include a built in swap trick.</strong> Before you decide to <a href="#creating-a-gshax-code-with-gshax-tool-example">create a GSHAX code</a>, it is a good idea to see if your PSX cheat device <a href="#psx-cheat-device-overview">includes a swap trick</a> as that can be used much more conveniently to boot the Tonyhax International <a href="https://alex-free.github.io/tonyhax-international/boot-cd.html">Boot CD</a> in such a use case.</p>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://alex-free.github.io/gshax-tool">Homepage</a></li>
+<li><a href="https://github.com/alex-free/gshax-tool">Github</a></li>
+<li><a href="https://alex-free.github.io/tonyhax-international">Tonyhax International</a></li>
+<li><a href="http://www.psxdev.net/forum/viewtopic.php?f=70&amp;t=4032">PSXDev Research Thread On GSHAX Codes</a></li>
+</ul>
+<h2 id="downloads">Downloads</h2>
+<h3 id="version-1.0-1272023">Version 1.0 (1/27/2023)</h3>
+<ul>
+<li><a href="https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-windows_x86.zip">gshax-tool-1.0-windows-x86</a> <em>For Windows 95 OSR 2.5 Or Newer (32-bit Windows)</em></li>
+<li><a href="https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-windows_x86_64.zip">gshax-tool-1.0-windows-x86_64</a> <em>For 64-bit Windows</em></li>
+<li><a href="https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-linux_x86_static.zip">gshax-tool-1.0-linux-x86</a> <em>For x86 Linux Distros</em></li>
+<li><a href="https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-linux_x86_64_static.zip">gshax-tool-1.0-linux-x86_64</a> <em>For x86_64 Linux Distros</em></li>
+<li><a href="https://github.com/alex-free/gshax-tool/archive/refs/tags/v1.0.zip">gshax-tool-1.0-source</a></li>
+</ul>
+<p>You can also get the source using git:</p>
+<p><code>git clone https://github.com/alex-free/gshax-tool</code></p>
+<h2 id="table-of-contents">Table Of Contents</h2>
+<ul>
+<li><a href="#psx-cheat-device-overview">PSX Cheat Device Overview</a></li>
+<li><a href="#gameshark-swap-tricks">GameShark Swap Tricks</a></li>
+<li><a href="#gameshark-cartridge-swap-trick">GameShark Cartridge Swap Trick</a></li>
+<li><a href="#gameshark-cd-swap-trick">GameShark CD Swap Trick</a></li>
+<li><a href="#creating-a-gshax-code-with-gshax-tool-example">Creating A GSHAX Code With GSHAX Tool</a></li>
+<li><a href="#step-1-emulator-setup">Step 1: Emulator Setup</a></li>
+<li><a href="#step-2-get-the-target-function-ra-value-argument-3">Step 2: Get The Target Function RA Value (Argument 3)</a></li>
+<li><a href="#step-3-get-the-ram-address-that-the-target-ra-is-loaded-from-argument-2">Step 3: Get The RAM Address That The Target RA Is Loaded From (Argument 2)</a></li>
+<li><a href="#step-4-find-an-unused-portion-of-zeroed-out-memory-in-ram-argument-4">Step 4: Find An Unused Portion Of Zeroed Out Memory In RAM (Argument 4)</a></li>
+<li><a href="#step-5-decide-on-output-mode-argument-1">Step 5: Decide On Output Mode (Argument 1)</a></li>
+<li><a href="#step-6-output-filename-argument-7">Step 6: Output Filename (Argument 7)</a></li>
+<li><a href="#step-7-mips-assembly-binary-for-conversion-to-gameshark-code-filename-argument-5">Step 7: MIPS Assembly Binary For Conversion To GameShark Code Filename (Argument 5)</a></li>
+<li><a href="#step-8-offset-value-cutoff-for-mips-assembly-binary-argument-6">Step 8: Offset Value Cutoff For MIPS Assembly Binary (Argument 6)</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#compiling-from-source">Compiling From Source</a></li>
+<li><a href="#credits">Credits</a></li>
+</ul>
+<h2 id="psx-cheat-device-overview">PSX Cheat Device Overview</h2>
+<p>While GSHAX codes can work on any PSX cheat device, they are most useful for the cheat devices which <strong>do not have a built-in swap trick</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 15%" />
+<col style="width: 32%" />
+<col style="width: 35%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Cheat Device</td>
+<td>Type Of Device</td>
+<td>Has A Built-In Swap Trick Back Door?</td>
+<td>Supports Storing Codes On A Memory Card?</td>
+</tr>
+<tr class="even">
+<td>GameShark v1.x</td>
+<td>Cartridge</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>GameShark v2.x</td>
+<td>Cartridge</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>GameShark v3.0-3.2</td>
+<td>Cartridge</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>GameShark CDX v3.3</td>
+<td>CD</td>
+<td>No</td>
+<td>No, requires proprietary PS1 memory card dongle device</td>
+</tr>
+<tr class="even">
+<td>GameShark Lite</td>
+<td>CD</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>GameShark v4.0</td>
+<td>CD</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>GameShark v5.0</td>
+<td>CD</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>GameShark v6.0</td>
+<td>CD</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="gameshark-swap-tricks">GameShark Swap Tricks</h2>
+<p>There are 2 different kinds of swap tricks that are available in some GameShark versions.</p>
+<p>The <a href="#gameshark-cartridge-swap-trick">GameShark cartridge swap trick</a> can be used on any PSX console model which has a cartridge port on the back, which includes the SCPH-1000-SCPH-7502 as the region of the console does not matter.</p>
+<p>The <a href="#gameshark-cd-swap-trick">GameShark CD swap trick</a> can be used on any USA PSX or PS2 console since the GameShark CD versions are detected as real licensed SCEA PSX discs.</p>
+<h3 id="gameshark-cartridge-swap-trick">GameShark Cartridge Swap Trick</h3>
+<p>The GameShark v2.0 cartridge introduced the CD Player option in the Explorer feature of the GameShark menu. The GameShark cartidge Swap Trick can boot the Tonyhax International <a href="https://alex-free.github.io/tonyhax-international/boot-cd.html">Boot CD</a> directly, which is more convenient then using GSHAX codes. It can be used on all GameShark v2.x and v3.x cartridges as described below:</p>
+<ul>
+<li>Ensure that the GameShark cheat cart is firmly inserted into the back of your compatible PSX console.</li>
+<li>Find something to block the lid sensor. The CD drive lid should remain ‘opened’ with the lid sensor blocked for at least the rest of the Swap Trick.</li>
+<li>Turn on the PSX with a real PSX game disc (that is the same region as your console) in the closed CD drive.</li>
+<li>After the GameShark logo displays, use the <code>D-PAD</code> to navigate to the <code>Explorer</code> option in the GameShark main menu, then select it with the <code>X</code> button.</li>
+<li>Use the <code>D-PAD</code> to navigate to the <code>Play CD Music</code> option in the <code>Explorer</code> sub-menu. You will see the message <code>Initializing CD System</code> for a few seconds, and then the <code>CD Audio Player</code> sub-menu will appear and the authentic PSX game disc will stop spinning.</li>
+<li>Replace the authentic PSX game disc (that is the same region as your console) with the burned Tonyhax International Boot CD-R.</li>
+<li>Press the <code>O</code> button to exit the <code>CD Audio Player</code> sub-menu, and to put you back at the <code>Explorer</code> sub-menu. Press the <code>O</code> button one last time to exit the <code>Explorer</code> menu, and to put you back at the main menu.</li>
+<li>Use the <code>D-PAD</code> to navigate to the <code>Start Game</code> option, then select it with the <code>X</code> button. This will bring you to the <code>Start Game Options</code> sub-menu. Finally, press the <code>X</code> button one last time to select the <code>Start Game Without Codes</code> option which will boot the Tonyhax International Boot CD-R.</li>
+</ul>
+<h3 id="gameshark-cd-swap-trick">GameShark CD Swap Trick</h3>
+<p>The swap trick ability of the GameShark briefly disappeared when the product first shifted from a cartridge to a CD. <strong>While the swap trick ability is not found in the GameShark CDX v3.3 or GameShark Lite</strong>, a different swap trick was added to the GameShark v4.0 CD and all newer versions. It is described below:</p>
+<ul>
+<li>Find something to block the lid sensor. The CD drive lid should remain ‘opened’ with the lid sensor blocked for the rest of the Swap Trick.</li>
+<li>Turn on the console with the GameShark CD in the CD drive, it will spin up and start the GameShark software.</li>
+<li>Once the GameShark software starts, <strong>the GameShark CD will stop in the CD drive.</strong></li>
+<li>Replace the GameShark CD with the burned Tonyhax International Boot CD-R.</li>
+<li>Use the <code>D-PAD</code> to navigate to the <code>Start Game</code> option, then select it with the <code>X</code> button. This will bring you to the <code>Start Game Options</code> sub-menu. Press the <code>X</code> button to select the <code>Start Game Without Codes</code> option.</li>
+<li>Finally, press the ‘X’ button one last time to boot the Tonyhax International Boot CD-R.</li>
+</ul>
+<h2 id="creating-a-gshax-code-with-gshax-tool-example">Creating A GSHAX Code With GSHAX Tool (Example)</h2>
+<p>GSHAX Tool is a command line program which <strong>requires 7 arguments</strong>, as described below:</p>
+<ol type="1">
+<li><ul>
+<li>The <a href="#step-5-decide-on-output-mode-argument-1">output mode</a> (-t for .txt, -g for gslite save game file).</li>
+</ul></li>
+<li><ul>
+<li>The RAM address that the target RA value is loaded <a href="#step-3-get-the-ram-address-that-the-target-ra-is-loaded-from-argument-2">from</a>.</li>
+</ul></li>
+<li><ul>
+<li>The <a href="#step-2-get-the-target-function-ra-value-argument-3">target RA value</a>.</li>
+</ul></li>
+<li><ul>
+<li>The <a href="#step-4-find-an-unused-portion-of-zeroed-out-memory-in-ram-argument-4">new RA value</a> that doubles as the start addr to the MIPS assembly binary in RAM.</li>
+</ul></li>
+<li><ul>
+<li>The <a href="#step-7-mips-assembly-binary-for-conversion-to-gameshark-code-filename-argument-5">filename</a> of the MIPS assembly binary you want to replace the in game function with.</li>
+</ul></li>
+<li><ul>
+<li>The <a href="#step-8-offset-value-cutoff-for-mips-assembly-binary-argument-6">offset</a> of the MIPS assembly binary (without padding).</li>
+</ul></li>
+<li><ul>
+<li>The <a href="#step-6-output-filename-argument-7">filename</a> of the output generated by GSHAX Tool.</li>
+</ul></li>
+</ol>
+<p>So I ended up with 2 different commands for my <a href="http://redump.org/disc/2772/">WipEout USA</a> GSHAX code:</p>
+<p><code>./gshax -t 801FBDC8 8006C2C4 800CBA70 entry-bb.bin 0xb4 wipeout-code.txt</code></p>
+<p><code>./gshax -g 801FBDC8 8006C2C4 800CBA70 entry-bb.bin 0xb4 CODELIST00</code></p>
+<p>The GSHAX codes in this example will change what happens when you press <code>START</code> at the WipEout title screen (the Tonyhax International loader will start).</p>
+<p><code>wipeout-code.txt</code>:</p>
+<p>D01FBDC8 C2C4</p>
+<p>801FBDC8 BA70</p>
+<p>D01FBDCA 8006</p>
+<p>801FBDCA 800C</p>
+<p>800CBA70 801F</p>
+<p>800CBA72 3C08</p>
+<p>800CBA74 FF00</p>
+<p>800CBA76 3508</p>
+<p>800CBA78 0001</p>
+<p>800CBA7A 0411</p>
+<p>800CBA7C E825</p>
+<p>800CBA7E 0100</p>
+<p>800CBA80 8025</p>
+<p>800CBA82 03E0</p>
+<p>800CBA84 0001</p>
+<p>800CBA86 2409</p>
+<p>800CBA88 1F80</p>
+<p>800CBA8A 3C08</p>
+<p>800CBA8C 1074</p>
+<p>800CBA8E AD09</p>
+<p>800CBA90 005B</p>
+<p>800CBA92 2409</p>
+<p>800CBA94 002C</p>
+<p>800CBA96 0C00</p>
+<p>800CBA98 0001</p>
+<p>800CBA9A 2404</p>
+<p>800CBA9C 005D</p>
+<p>800CBA9E 2409</p>
+<p>800CBAA0 002C</p>
+<p>800CBAA2 0C00</p>
+<p>800CBAA4 0000</p>
+<p>800CBAA6 2404</p>
+<p>800CBAA8 005D</p>
+<p>800CBAAA 2409</p>
+<p>800CBAAC 002C</p>
+<p>800CBAAE 0C00</p>
+<p>800CBAB0 0001</p>
+<p>800CBAB2 2404</p>
+<p>800CBAB4 0032</p>
+<p>800CBAB6 2409</p>
+<p>800CBAB8 009C</p>
+<p>800CBABA 2204</p>
+<p>800CBABC 002C</p>
+<p>800CBABE 0C00</p>
+<p>800CBAC0 0001</p>
+<p>800CBAC2 2405</p>
+<p>800CBAC4 8825</p>
+<p>800CBAC6 0040</p>
+<p>800CBAC8 000F</p>
+<p>800CBACA 3C08</p>
+<p>800CBACC 4240</p>
+<p>800CBACE 3508</p>
+<p>800CBAD0 FFFF</p>
+<p>800CBAD2 2108</p>
+<p>800CBAD4 FFFE</p>
+<p>800CBAD6 1500</p>
+<p>800CBAD8 0000</p>
+<p>800CBADA 0000</p>
+<p>800CBADC 801F</p>
+<p>800CBADE 3C12</p>
+<p>800CBAE0 8080</p>
+<p>800CBAE2 3652</p>
+<p>800CBAE4 0034</p>
+<p>800CBAE6 2409</p>
+<p>800CBAE8 2025</p>
+<p>800CBAEA 0220</p>
+<p>800CBAEC 2825</p>
+<p>800CBAEE 0240</p>
+<p>800CBAF0 002C</p>
+<p>800CBAF2 0C00</p>
+<p>800CBAF4 0100</p>
+<p>800CBAF6 2406</p>
+<p>800CBAF8 0044</p>
+<p>800CBAFA 8E53</p>
+<p>800CBAFC 0040</p>
+<p>800CBAFE 8E52</p>
+<p>800CBB00 0034</p>
+<p>800CBB02 2409</p>
+<p>800CBB04 2025</p>
+<p>800CBB06 0220</p>
+<p>800CBB08 2825</p>
+<p>800CBB0A 0240</p>
+<p>800CBB0C 002C</p>
+<p>800CBB0E 0C00</p>
+<p>800CBB10 3025</p>
+<p>800CBB12 0260</p>
+<p>800CBB14 0008</p>
+<p>800CBB16 0240</p>
+<p>800CBB18 0000</p>
+<p>800CBB1A 0000</p>
+<p>800CBB1C 7562</p>
+<p>800CBB1E 3030</p>
+<p>800CBB20 483A</p>
+<p>800CBB22 5841</p>
+<h3 id="step-1-emulator-setup">Step 1: Emulator Setup</h3>
+<p>The first thing to do is fire up the target PSX game that you want to write a GSHAX code for in an emulator so that you can find the values required for input to GSHAX Tool.</p>
+<p>In this example, I am using a copy of <a href="http://redump.org/disc/2772/">WipEout USA</a> with the <a href="https://www.duckstation.org/">DuckStation</a> PSX emulator. In DuckStation you need to enable the <code>Show Developer Menu</code> option. This gives you access to the <code>CPU Debugger</code> feature of DuckStation that will be used later to figure out the necessary GSHAX input values to create GSHAX codes.</p>
+<figure>
+<img src="images/duckstation-advanced-settings.png" alt="Open Advanced Settings in DuckStation" /><figcaption aria-hidden="true">Open <code>Advanced Settings</code> in DuckStation</figcaption>
+</figure>
+<figure>
+<img src="images/duckstation-enable-debug-menu.png" alt="Enable Show Debug Menu Option In DuckStation" /><figcaption aria-hidden="true">Enable <code>Show Debug Menu</code> Option In DuckStation</figcaption>
+</figure>
+<p>Click <code>Close</code> at the bottom of the <code>Advanced Settings</code> window to apply the settings.</p>
+<h3 id="step-2-get-the-target-function-ra-value-argument-3">Step 2: Get The Target Function RA Value (Argument 3)</h3>
+<p>Start the game with the <code>.cue</code> file:</p>
+<figure>
+<img src="images/duckstation-open-wipeout.png" alt="Start WipEout" /><figcaption aria-hidden="true">Start WipEout</figcaption>
+</figure>
+<p>Go through the game until reaching the target function that will be modified. In my example with WipEout, I choose the title screen. At the title screen, I started the <code>CPU Debugger</code> option (which will pause emulation when opened). At the top right of the CPU Debugger is a box containing register values. I found the RA value <code>8006C2C4</code>. This is the value that will be replaced by a new one which points to our own MIPS assembly code, known as the ‘old ra’. This will be the 3rd argument in our GSHAX Tool command.</p>
+<figure>
+<img src="images/duckstation-wipeout-title-screen-ra.png" alt="Get Target Function RA Value" /><figcaption aria-hidden="true">Get Target Function RA Value</figcaption>
+</figure>
+<h3 id="step-3-get-the-ram-address-that-the-target-ra-is-loaded-from-argument-2">Step 3: Get The RAM Address That The Target RA Is Loaded From (Argument 2)</h3>
+<p>Now I need to find an address which contains the known RA value <code>8006C2C4</code>, this must be the address in RAM that the game uses to get this RA value from. In DuckStation, I continued emulation by making the DuckStation WipEout emulation window active again and then pressed the start menu at the title screen. I then pulled back up the <code>CPU Debugger</code> immediately. Good news is, the RA value is still the same after pressing start on the title screen. Now, I’ll search for the RA value in the current RAM. I need to do some byte swapping/moving for the search feature of DuckStation, so <code>8006C2C4</code> becomes <code>C4 C2 06 80</code>, which I can in fact search for and get exactly one match in RAM! This is definitely where the RA value, comes from. The address in the DuckStation <code>CPU Debugger</code> is: <code>001FBDC8</code>, which is really <code>801FBDC8</code> for our purposed with GSHAX codes.</p>
+<figure>
+<img src="images/duckstation-wipeout-ra-value-at-address.png" alt="Get RAM Address That RA Value Is Loaded From" /><figcaption aria-hidden="true">Get RAM Address That RA Value Is Loaded From</figcaption>
+</figure>
+<h3 id="step-4-find-an-unused-portion-of-zeroed-out-memory-in-ram-argument-4">Step 4: Find An Unused Portion Of Zeroed Out Memory In RAM (Argument 4)</h3>
+<p>Now we need to find a large chunk of unused, freely available RAM large enough to put the mips assembly binary at without conflicting with any existing game functions. Using the scroll bar in the <code>Memory</code> section of the <code>CPU Debugger</code> window at the bottom left, I found that there is a large section of zeroed out memory from RAM address <code>0x800CBA70</code> to <code>0x800CE138</code>, which is 9928 (0x26C8) bytes, way more then we need for the Tonyhax International v1.1.8 <code>entrypoints/entry-bb.bin</code> MIPS assembly! All we need for the <code>entrypoints/entry-bb.bin</code> MIPS assembly in theory is a <code>0xb5</code> section of zeroed out memory.</p>
+<figure>
+<img src="images/duckstation-wipeout-free-ram-start.png" alt="Free RAM Address Space" /><figcaption aria-hidden="true">Free RAM Address Space</figcaption>
+</figure>
+<p>I decided on using the starting address of <code>0x800CBA70</code> to put the MIPS assembly binary at. It’s a little after the start of the unused RAM section, for no real reason other then that’s where I tried it first in testing.</p>
+<h3 id="step-5-decide-on-output-mode-argument-1">Step 5: Decide On Output Mode (Argument 1)</h3>
+<p>GSHAX Tool can output the complete list of GSHAX codes to 2 formats. A simple .txt file containing all lines of code, or a real valid GameShark Lite save game file which contains all of the codes already entered/activated, which vastly improves how fast you can use GSHAX codes.</p>
+<p>If you set the first argument to <code>-g</code> you will output a GameShark Lite save game file. If you set the first argument to <code>-t</code> you will output a <code>.txt</code> text file containing all code lines.</p>
+<h3 id="step-6-output-filename-argument-7">Step 6: Output Filename (Argument 7)</h3>
+<p>The 7th argument must be the filename of the new file generated by GSHAX Tool. This must be named <code>CODELIST00</code> if you make a GameShark Lite save game file that GameShark Lite will use when copied to a PS1 memory card.</p>
+<p>The GameShark Lite save game file can be placed on a PS1 memory card using a soft-modded PS2 or other methods of writing custom files to PS1 memory cards. Once you have the memory card containing the <strong>GameShark Lite save game file (must be named <code>CODELIST00</code>)</strong> in slot 1 of your USA console:</p>
+<ul>
+<li>Turn on your console with the GameShark Lite disc in the closed CD drive.</li>
+<li>Wait for GameShark Lite to load through the <code>This product is NOT licensed or endorsed by SCEA</code> disclaimer, skip through the FMV, and then select the <code>Start GS lite</code> option in the GameShark Lite boot menu.</li>
+<li>The GameShark Lite reads from the memory card in slot 1 of the console at boot, looking for any GameShark Lite CD save files. If it finds one it will display the message <code>Codes Loaded. Press O</code>.</li>
+<li>After Pressing <code>O</code> you will be back at the GameShark Lite <code>Main Menu</code>. Use the <code>D-PAD</code> to navigate to the <code>Select Cheat Codes</code> option, and select it by pressing the <code>X</code> button.</li>
+<li>The game title named <code>A</code> will be automatically highlighted when you enter the <code>Select Cheat Codes</code> menu, which means the GSHAX codes will be automatically enabled. There are 2 codes for each GameSharkHAX game, so if you see in the bottom box the text <code>2 Cheat Codes Are On</code> for the <code>A</code> game title then you can simply press the <code>O</code> button to return to the <code>Main Menu</code>.</li>
+<li>Use the <code>D-PAD</code> to navigate to the <code>Start Game</code> option, and select it with the <code>X</code> button.</li>
+<li>In the <code>Start Game Options</code> menu, the <code>Start Game With Selected Codes</code> option will already be highlighted. Press the <code>X</code> button to select it. You will see a text box which says <code>Open PlayStation CD lid. Remove GameShark CD. Insert Game CD. Close CD lid.</code> follow those instructions, inserting the GameSharkHAX compatible game disc.</li>
+<li>Once the GameSharkHAX compatible game boots, go to the function modified by the GSHAX codes. In my example, I played to the title screen, and then pressed the start button.</li>
+</ul>
+<h3 id="step-7-mips-assembly-binary-for-conversion-to-gameshark-code-filename-argument-5">Step 7: MIPS Assembly Binary For Conversion To GameShark Code Filename (Argument 5)</h3>
+<p>The filename of the actual MIPS assembly binary is argument 5, in this example: <code>entry-bb.bin</code>.</p>
+<h3 id="step-8-offset-value-cutoff-for-mips-assembly-binary-argument-6">Step 8: Offset Value Cutoff For MIPS Assembly Binary (Argument 6)</h3>
+<p>The MIPS assembly binary must be <strong>an even value no larger then 248 (0xF8) bytes in size</strong>. In my example, I am using the size-optimized 1st stage loader used by some save game exploits in Tonyhax International. The <code>entrypoints/entry-bb.bin</code> MIPS assembly binary generated for Tonyhax International v1.1.8 is 192 (0xC0) bytes. This can be stripped to 180 bytes, or 0xb4 in hex however because there is nothing but 0x00 bytes after offset 0xb4 (and we are going to write it into a large space of zeroed out RAM already).</p>
+<figure>
+<img src="images/entry-bb.bin-stripped-bytes.png" alt="Only Bytes We Actually Need In entry-bb.bin" /><figcaption aria-hidden="true">Only Bytes We Actually Need In entry-bb.bin</figcaption>
+</figure>
+<h2 id="license">License</h2>
+<p>GSHAX Tool is open source software released under the 3-BSD license. Please see the file <code>license.txt</code> in each GSHAX Tool release for full info.</p>
+<h2 id="compiling-from-source">Compiling From Source</h2>
+<p><a href="#downloads">Download</a> the source, and simply execute <code>make</code>.</p>
+<h2 id="credits">Credits</h2>
+<p>Huge thanks to MottZilla for helping reverse how the GameShark Lite save game file is read and generated, most notably how the checksum and checked area is calculated.</p>
+</body>
+</html>
