@@ -24,7 +24,7 @@ windows-x86_64:
 linux-release:
 	rm -rf gshax-tool-$(VER)-$(PLATFORM) gshax-tool-$(VER)-$(PLATFORM).zip
 	mkdir gshax-tool-$(VER)-$(PLATFORM)
-	cp -rv gshax images readme.html readme.md license.txt gshax-tool-$(VER)-$(PLATFORM)
+	cp -rv gshax images readme.md license.txt gshax-tool-$(VER)-$(PLATFORM)
 	chmod -R 777 gshax-tool-$(VER)-$(PLATFORM)
 	zip -r gshax-tool-$(VER)-$(PLATFORM).zip gshax-tool-$(VER)-$(PLATFORM)
 	rm -rf gshax-tool-$(VER)-$(PLATFORM)
@@ -32,7 +32,7 @@ linux-release:
 windows-release:
 	rm -rf gshax-tool-$(VER)-$(PLATFORM) gshax-tool-$(VER)-$(PLATFORM).zip
 	mkdir gshax-tool-$(VER)-$(PLATFORM)
-	cp -rv gshax.exe images readme.html readme.md license.txt gshax-tool-$(VER)-$(PLATFORM)
+	cp -rv gshax.exe images readme.md license.txt gshax-tool-$(VER)-$(PLATFORM)
 	chmod -R 777 gshax-tool-$(VER)-$(PLATFORM)
 	zip -r gshax-tool-$(VER)-$(PLATFORM).zip gshax-tool-$(VER)-$(PLATFORM)
 	rm -rf gshax-tool-$(VER)-$(PLATFORM)
