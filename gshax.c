@@ -93,52 +93,57 @@ unsigned char gshax1[] = { 0x47, 0x53, 0x48, 0x41, 0x58, 0x31, 0x00, 0x00 }; // 
 unsigned char gshax2[] = { 0x47, 0x53, 0x48, 0x41, 0x58, 0x32, 0x00, 0x00 }; // 'GSHAX2', 0x00 termination, and number_of_codes. number_of_codes is written to later and is hardcoded at 0x28E.
 
 bool large_gs_lite_save = 0;
+bool mode = 0;
 
 void gen_txt()
 {
-    // first D0 compare code address
-    old_ra_address_write_val = old_ra_address;
-    bytes=(unsigned char *)&old_ra_address_write_val;
-    bytes[3] = 0xD0;
-    old_ra_address_write_val = bytes[0] + (bytes[1] << 8) + (bytes[2] << 16) + (bytes[3] << 24); 
-    fprintf(out, "%08X ", old_ra_address_write_val);
 
-    // original bytes for first compare code address 
-    old_ra_write_val = old_ra;
-    bytes=(unsigned char *)&old_ra_write_val;
-    fprintf(out, "%02X", bytes[1]);
-    fprintf(out, "%02X\n", bytes[0]);
+    if(!mode) // Mode 0 only, Mode 1 does not use D0 codes
+    {
+        // first D0 compare code address
+        old_ra_address_write_val = old_ra_address;
+        bytes=(unsigned char *)&old_ra_address_write_val;
+        bytes[3] = 0xD0;
+        old_ra_address_write_val = bytes[0] + (bytes[1] << 8) + (bytes[2] << 16) + (bytes[3] << 24); 
+        fprintf(out, "%08X ", old_ra_address_write_val);
 
-    // actual first address for first compare code 
-    fprintf(out, "%08X ", old_ra_address);
+        // original bytes for first compare code address 
+        old_ra_write_val = old_ra;
+        bytes=(unsigned char *)&old_ra_write_val;
+        fprintf(out, "%02X", bytes[1]);
+        fprintf(out, "%02X\n", bytes[0]);
 
-    // actual new bytes to write at first address
-    new_ra_write_val = new_ra;
-    bytes=(unsigned char *)&new_ra_write_val;
-    fprintf(out, "%02X", bytes[1]);
-    fprintf(out, "%02X\n", bytes[0]);
+        // actual first address for first compare code 
+        fprintf(out, "%08X ", old_ra_address);
 
-    // second D0 compare code address
-    old_ra_address_write_val = (old_ra_address + 2);
-    bytes=(unsigned char *)&old_ra_address_write_val;
-    bytes[3] = 0xD0;
-    old_ra_address_write_val = bytes[0] + (bytes[1] << 8) + (bytes[2] << 16) + (bytes[3] << 24);
-    fprintf(out, "%08X ", old_ra_address_write_val);
+        // actual new bytes to write at first address
+        new_ra_write_val = new_ra;
+        bytes=(unsigned char *)&new_ra_write_val;
+        fprintf(out, "%02X", bytes[1]);
+        fprintf(out, "%02X\n", bytes[0]);
 
-    // original bytes for second compare code address 
-    old_ra_write_val = old_ra;
-    bytes=(unsigned char *)&old_ra_write_val;
-    fprintf(out, "%02X", bytes[3]);
-    fprintf(out, "%02X\n", bytes[2]);
+        // second D0 compare code address
+        old_ra_address_write_val = (old_ra_address + 2);
+        bytes=(unsigned char *)&old_ra_address_write_val;
+        bytes[3] = 0xD0;
+        old_ra_address_write_val = bytes[0] + (bytes[1] << 8) + (bytes[2] << 16) + (bytes[3] << 24);
+        fprintf(out, "%08X ", old_ra_address_write_val);
 
-    // actual second address for second compare code
-    fprintf(out, "%08X ", (old_ra_address + 2));
+        // original bytes for second compare code address 
+        old_ra_write_val = old_ra;
+        bytes=(unsigned char *)&old_ra_write_val;
+        fprintf(out, "%02X", bytes[3]);
+        fprintf(out, "%02X\n", bytes[2]);
 
-    // actual new bytes to write at second address
-    new_ra_write_val = new_ra;
-    bytes=(unsigned char *)&new_ra_write_val;
-    fprintf(out, "%02X", bytes[3]);
-    fprintf(out, "%02X\n", bytes[2]);
+        // actual second address for second compare code
+        fprintf(out, "%08X ", (old_ra_address + 2));
+
+        // actual new bytes to write at second address
+        new_ra_write_val = new_ra;
+        bytes=(unsigned char *)&new_ra_write_val;
+        fprintf(out, "%02X", bytes[3]);
+        fprintf(out, "%02X\n", bytes[2]);
+    }
 
     while(1)
     {
@@ -179,57 +184,62 @@ void gen_gslite_save()
     for(int i = 0; i < 8; i++)
         fputc(gshax1[i], out); // name of code 1, 'GSHAX1' with termination (0x00) and zeroed out number_of_codes (will be calculated later)
 
-    // first D0 compare code address
-    old_ra_address_write_val = old_ra_address;
-    bytes=(unsigned char *)&old_ra_address_write_val;
-    bytes[3] = 0xD0;
-    old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
-    fwrite(&old_ra_address_write_val, 1, 4, out);
+    if(!mode) // Mode 0 only, Mode 1 does not use D0 codes
+    {
+        // first D0 compare code address
+        old_ra_address_write_val = old_ra_address;
+        bytes=(unsigned char *)&old_ra_address_write_val;
+        bytes[3] = 0xD0;
+        old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
+        fwrite(&old_ra_address_write_val, 1, 4, out);
 
-    // original bytes for first compare code address 
-    old_ra_write_val = old_ra;
-    bytes=(unsigned char *)&old_ra_write_val;
-    old_ra_write_val = bytes[1] + (bytes[0] << 8) + (bytes[2] << 16) + (bytes[3] << 24); 
-    fwrite(&old_ra_write_val, 1, 2, out);
+        // original bytes for first compare code address 
+        old_ra_write_val = old_ra;
+        bytes=(unsigned char *)&old_ra_write_val;
+        old_ra_write_val = bytes[1] + (bytes[0] << 8) + (bytes[2] << 16) + (bytes[3] << 24); 
+        fwrite(&old_ra_write_val, 1, 2, out);
 
-    // actual first address for first compare code
-    old_ra_address_write_val = old_ra_address;
-    bytes=(unsigned char *)&old_ra_address_write_val;
-    old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
-    fwrite(&old_ra_address_write_val, 1, 4, out);
+        // actual first address for first compare code
+        old_ra_address_write_val = old_ra_address;
+        bytes=(unsigned char *)&old_ra_address_write_val;
+        old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
+        fwrite(&old_ra_address_write_val, 1, 4, out);
 
-    // actual new bytes to write at first address
-    new_ra_write_val = new_ra;
-    bytes=(unsigned char *)&new_ra_write_val;
-    new_ra_write_val = bytes[1] + (bytes[0] << 8) + (bytes[2] << 16) + (bytes[3] << 24); 
-    fwrite(&new_ra_write_val, 1, 2, out);
+        // actual new bytes to write at first address
+        new_ra_write_val = new_ra;
+        bytes=(unsigned char *)&new_ra_write_val;
+        new_ra_write_val = bytes[1] + (bytes[0] << 8) + (bytes[2] << 16) + (bytes[3] << 24); 
+        fwrite(&new_ra_write_val, 1, 2, out);
 
-    // second D0 compare code address
-    old_ra_address_write_val = (old_ra_address + 2);
-    bytes=(unsigned char *)&old_ra_address_write_val;
-    bytes[3] = 0xD0;
-    old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
-    fwrite(&old_ra_address_write_val, 1, 4, out);
+        // second D0 compare code address
+        old_ra_address_write_val = (old_ra_address + 2);
+        bytes=(unsigned char *)&old_ra_address_write_val;
+        bytes[3] = 0xD0;
+        old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
+        fwrite(&old_ra_address_write_val, 1, 4, out);
 
-    // original bytes for first compare code address 
-    old_ra_write_val = old_ra;
-    bytes=(unsigned char *)&old_ra_write_val;
-    old_ra_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
-    fwrite(&old_ra_write_val, 1, 2, out);
+        // original bytes for first compare code address 
+        old_ra_write_val = old_ra;
+        bytes=(unsigned char *)&old_ra_write_val;
+        old_ra_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
+        fwrite(&old_ra_write_val, 1, 2, out);
 
-    // actual second address for second compare code
-    old_ra_address_write_val = (old_ra_address + 2);
-    bytes=(unsigned char *)&old_ra_address_write_val;
-    old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
-    fwrite(&old_ra_address_write_val, 1, 4, out);
+        // actual second address for second compare code
+        old_ra_address_write_val = (old_ra_address + 2);
+        bytes=(unsigned char *)&old_ra_address_write_val;
+        old_ra_address_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
+        fwrite(&old_ra_address_write_val, 1, 4, out);
 
-    // actual new bytes to write at second address
-    new_ra_write_val = new_ra;
-    bytes=(unsigned char *)&new_ra_write_val;
-    new_ra_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
-    fwrite(&new_ra_write_val, 1, 2, out);
+        // actual new bytes to write at second address
+        new_ra_write_val = new_ra;
+        bytes=(unsigned char *)&new_ra_write_val;
+        new_ra_write_val = bytes[3] + (bytes[2] << 8) + (bytes[1] << 16) + (bytes[0] << 24); 
+        fwrite(&new_ra_write_val, 1, 2, out);
 
-    bytes_counter = 0x18; // 24 bytes, 6 bytes per code line, 4 code lines to change RA
+        bytes_counter = 0x18; // 24 bytes, 6 bytes per code line, 4 code lines to change RA
+    } else {
+        bytes_counter = 0; // No D0 codes!
+    }
 
     while(1)
     {
@@ -329,39 +339,63 @@ void gen_gslite_save()
 
 int main (int argc, const char * argv[]) 
 {
-   if(argc != 8)
+   if(argc != 8 && argc !=6)
     {
-        printf("GSHAX Tool v1.0\nBy Alex Free & MottZilla\nError: gshax requires 6 arguments\ngshax <mode> <address of old RA value in ram> <old RA> <new RA/EXE load address> <mips assembly binary> <mips assembly binary cutoff offset> <output file>\n");
+        printf("GSHAX Tool v1.0.1\nBy Alex Free & MottZilla\nError: gshax requires 5 or 7 arguments\n\ngshax <mode> <address of old RA value in ram> <old RA> <new RA/EXE load address> <mips assembly binary> <mips assembly binary cutoff offset> <output file>\n\ngshax <mode> <EXE load address JAL destination> <mips assembly binary> <mips assembly binary cutoff offset> <output file>\n");
         return(1);
     }
 
-    old_ra_address = strtoul(argv[2], NULL, 16);
-    printf("Original RA Value Address: %08X\n", old_ra_address);
-    old_ra = strtoul(argv[3], NULL, 16);
-    printf("Original RA: %08X\n", old_ra);
-    new_ra = strtoul(argv[4], NULL, 16);
-    printf("New RA/EXE load address: %08X\n", new_ra);
+    if(argc == 6)
+        mode = 1; // newer method (i.e. Parasite Eve)
 
-    if((exe = fopen(argv[5], "rb+")) == NULL)
+    if(mode) // New Mode 1
     {
-        printf("Error: Cannot open the executable file: %s\n", argv[5]);
-        return(1);
-    }
+        new_ra = strtoul(argv[2], NULL, 16);
+        printf("New RA/EXE load address: %08X\n", new_ra);
 
+        if((exe = fopen(argv[3], "rb+")) == NULL)
+        {
+            printf("Error: Cannot open the executable file: %s\n", argv[3]);
+            return(1);
+        }
 
-    mips_assembly_bin_cutoff_offset = strtoul(argv[6], NULL, 16);
-    // only handles a maximum of up to 2 code entries. Each code entry can be up to 64 lines in length. The first 4 lines are taken up by the 2 D0 compare codes. So 60 * 2 = 120. 64 * 2 = 128. 120+128= 248 or 0xF8.
-    if(mips_assembly_bin_cutoff_offset > 0xF8)
-    {
-        printf("Error: the MIPS Assembly bin cutoff offset: %02X is too large, the maximum filesize is 248 (decimal) or 0xF8 (hex) bytes!\n", mips_assembly_bin_cutoff_offset);
-        return(1);
-    } else {
-        printf("MIPS Assembly Size Cutoff: %04X\n", mips_assembly_bin_cutoff_offset);
+        mips_assembly_bin_cutoff_offset = strtoul(argv[4], NULL, 16);
+        // currently only handles a maximum of up to 2 code entries. Each code entry can be up to 64 lines in length. So 64 * 2 = 128. 128+128= 256 or 0x100.
+        if(mips_assembly_bin_cutoff_offset > 0x100)
+        {
+            printf("Error: the MIPS Assembly bin cutoff offset: %02X is too large, the maximum filesize is 256 (decimal) or 0x100 (hex) bytes!\n", mips_assembly_bin_cutoff_offset);
+            return(1);
+        } else {
+            printf("MIPS Assembly Size Cutoff: %04X\n", mips_assembly_bin_cutoff_offset);
+        }
+    } else { // Old Mode 0
+        old_ra_address = strtoul(argv[2], NULL, 16);
+        printf("Original RA Value Address: %08X\n", old_ra_address);
+        old_ra = strtoul(argv[3], NULL, 16);
+        printf("Original RA: %08X\n", old_ra);
+        new_ra = strtoul(argv[4], NULL, 16);
+        printf("New RA/EXE load address: %08X\n", new_ra);
+
+        if((exe = fopen(argv[5], "rb+")) == NULL)
+        {
+            printf("Error: Cannot open the executable file: %s\n", argv[5]);
+            return(1);
+        }
+
+        mips_assembly_bin_cutoff_offset = strtoul(argv[6], NULL, 16);
+        // currently only handles a maximum of up to 2 code entries. Each code entry can be up to 64 lines in length. The first 4 lines are taken up by the 2 D0 compare codes. So 60 * 2 = 120. 64 * 2 = 128. 120+128= 248 or 0xF8.
+        if(mips_assembly_bin_cutoff_offset > 0xF8)
+        {
+            printf("Error: the MIPS Assembly bin cutoff offset: %02X is too large, the maximum filesize is 248 (decimal) or 0xF8 (hex) bytes!\n", mips_assembly_bin_cutoff_offset);
+            return(1);
+        } else {
+            printf("MIPS Assembly Size Cutoff: %04X\n", mips_assembly_bin_cutoff_offset);
+        }
     }
 
     if(mips_assembly_bin_cutoff_offset % 2 != 0)
     {
-        printf("Error: the MIPS Assembly bin cutoff ofset: %02X is not divisable two, and can not be used!\n", mips_assembly_bin_cutoff_offset);
+        printf("Error: the MIPS Assembly bin cutoff offset: %02X is not divisible by two, and can not be used!\n", mips_assembly_bin_cutoff_offset);
         return(1);
     }
     
@@ -372,25 +406,44 @@ int main (int argc, const char * argv[])
 
     if((strcmp("-g", argv[1])) == 0) 
     {
-        if((out = fopen(argv[7], "wb+")) == NULL)
+        if(mode)
         {
-            printf("Error: Cannot create the output file: %s\n", argv[7]);
-            return(1);
+            if((out = fopen(argv[5], "wb+")) == NULL)
+            {
+                printf("Error: Cannot create the output file: %s\n", argv[5]);
+                return(1);
+            }            
+        } else {
+            if((out = fopen(argv[7], "wb+")) == NULL)
+            {
+                printf("Error: Cannot create the output file: %s\n", argv[7]);
+                return(1);
+            }
         }
+
         gen_gslite_save();
-        fclose(out);
-        fclose(exe);
     } else if((strcmp("-t", argv[1])) == 0) {
-        if((out = fopen(argv[7], "w+")) == NULL)
+        if(mode)
         {
-            printf("Error: Cannot create the output file: %s\n", argv[7]);
-            return(1);
+            if((out = fopen(argv[5], "w+")) == NULL)
+            {
+                printf("Error: Cannot create the output file: %s\n", argv[5]);
+                return(1);
+            }
+        } else {
+            if((out = fopen(argv[7], "w+")) == NULL)
+            {
+                printf("Error: Cannot create the output file: %s\n", argv[7]);
+                return(1);
+            }            
         }
+
         gen_txt();
-        fclose(out);
-        fclose(exe);
     } else {
         printf("Error: 1st argument must be -g or -t\n");
         return(1);
     }
+
+    fclose(out);
+    fclose(exe);
 }
