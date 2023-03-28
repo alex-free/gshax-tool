@@ -1,20 +1,14 @@
 # [alex-free.github.io](https://alex-free.github.io)
 
+# GSHAX Tool
+
 By Alex Free & MottZilla
 
-GSHAX Tool is a portable open source program that **can generate complete GSHAX codes from scratch.** GSHAX Tool can output GSHAX codes to either a text file (.txt) or a real valid GameShark Lite save game file.
+GSHAX codes are PSX GameShark codes that modify an existing function in a game to _instead_ execute custom MIPS assembly. It works by changing an existing jump or jump and link instruction in an existing game to instead go to a free RAM address location of your choosing, which will contain the custom MIPS assembly to execute instead of the original game function.
 
-## What Are GSHAX Codes?
+GSHAX Tool can generate complete GSHAX codes from scratch. Code can be generated to either a text file (.txt) or a real valid GameShark Lite save game file. The GameShark Lite save game file can be placed on the memory card in slot 1. As long as it is named `CODELIST00`, it will automatically load the GSHAX codes into the database, making it supper easy to use the GameShark Lite CD with GSHAX Tool generated codes. For more information, see the [GameSharkHAX](https://alex-free.github.io/tonyhax-international/gameshark-code) page on Tonyhax International.
 
-GSHAX codes are PSX GameShark codes that modify an existing function in a running game to _instead_ execute custom MIPS assembly. 
-
-![GSHAX Tool WipEout (USA)](images/wipeout-example-usage.png)
-
-![GSHAX Tool Parasite Eve (USA)](images/parasite-eve-example-usage.png)
-
-As an example of usefulness, GSHAX codes are used in [Tonyhax International](https://alex-free.github.io/tonyhax-international) to load the Tonyhax International loader PS-EXE off of a memory card in slot 1, enabling the play of backup and import discs with a GameShark or other cheat device. This is very useful for the various PSX cheat devices **that do not already include a built in swap trick [backdoor](https://alex-free.github.io/tonyhax-international/boot-cd).** This is most notably the GameShark Lite (CD), GameShark CDX v3.3 (CD), and GameShark 1.x (cartridge) products.
-
-There are currently 2 different modes that GSHAX Tool can be used in, Mode 0 and Mode 1. These provide 2 different types of vectors to take control away from the original game software. Examples of both modes in use are available below.
+As an example of usefulness, GSHAX codes are [used](https://github.com/alex-free/tonyhax/blob/master/gshax/Makefile) in [Tonyhax International](https://alex-free.github.io/tonyhax-international) to load the Tonyhax International loader PS-EXE off of a memory card in slot 1, enabling the play of backup and import discs with a GameShark or other cheat device. This is very useful for the various PSX cheat devices **that do not already include a built in swap trick [backdoor](https://alex-free.github.io/tonyhax-international/boot-cd).** This is most notably the GameShark Lite (CD), GameShark CDX v3.3 (CD), and GameShark 1.x (cartridge) products.
 
 ## Links
 
@@ -25,217 +19,163 @@ There are currently 2 different modes that GSHAX Tool can be used in, Mode 0 and
 
 ## Downloads
 
-### Version 1.0.1 (3/9/2023)
+### Version 2.0 (3/28/2023)
 
-*	[gshax-tool-1.0.1-windows\_x86](https://github.com/alex-free/gshax-tool/releases/download/v1.0.1/gshax-tool-1.0.1-windows_x86.zip) _For Windows 95 OSR 2.5 Or Newer (32-bit Windows)_
-*	[gshax-tool-1.0.1-windows\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v1.0.1/gshax-tool-1.0.1-windows_x86_64.zip) _For 64-bit Windows_
-*	[gshax-tool-1.0.1-linux\_x86](https://github.com/alex-free/gshax-tool/releases/download/v1.0.1/gshax-tool-1.0.1-linux_x86_static.zip) _For x86 Linux Distros_
-*	[gshax-tool-1.0.1-linux\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v1.0.1/gshax-tool-1.0.1-linux_x86_64_static.zip) _For x86\_64 Linux Distros_
-*	[gshax-tool-1.0.1-source](https://github.com/alex-free/gshax-tool/archive/refs/tags/v1.0.1.zip)
+*	[gshax-tool-v2.0-windows\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-windows_x86.zip) _For Windows 95 OSR 2.5 Or Newer (32-bit Windows)_
+*	[gshax-tool-v2.0-windows\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-windows_x86_64.zip) _For 64-bit Windows_
+*	[gshax-tool-v2.0-linux\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-linux_x86_static.zip) _For x86 Linux Distros_
+*	[gshax-tool-v2.0-linux\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-linux_x86_64_static.zip) _For x86\_64 Linux Distros_
+*	[gshax-tool-v2.0-source](https://github.com/alex-free/gshax-tool/archive/refs/tags/v2.0.zip)
 
 Changes:
-*   New Mode 1 has been added.
 
-### Version 1.0 (1/27/2023)
+*   GSHAX Tool now requires 8 arguments, as it now uses a completely new method to edit either an existing jump or jump and link in-game instruction. This is a total rewrite, which removes the kludges that were the original 'mode 0' and 'mode 1' functionalities. It enables generating codes for any game (in theory).
 
-*	[gshax-tool-1.0-windows\_x86](https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-windows_x86.zip) _For Windows 95 OSR 2.5 Or Newer (32-bit Windows)_
-*	[gshax-tool-1.0-windows\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-windows_x86_64.zip) _For 64-bit Windows_
-*	[gshax-tool-1.0-linux\_x86](https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-linux_x86_static.zip) _For x86 Linux Distros_
-*	[gshax-tool-1.0-linux\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v1.0/gshax-tool-1.0-linux_x86_64_static.zip) _For x86\_64 Linux Distros_
-*	[gshax-tool-1.0-source](https://github.com/alex-free/gshax-tool/archive/refs/tags/v1.0.zip)
+[About previous versions.](changelog.md)
 
 ## Table Of Contents
 
-*   [Creating A GSHAX Code With GSHAX Tool Mode 0](#creating-a-gshax-code-with-gshax-tool-mode-0)
-*   [Creating A GSHAX Code With GSHAX Tool Mode 1](#creating-a-gshax-code-with-gshax-tool-mode-1)
+*   [Usage](#usage)
+*   [Step 1: Setup The DuckStation Emulator](#step-1-setup-the-duckstation)
+*   [Step 2: Find An Exploitable CPU Instruction In The Target Game](#step-2-find-an-exploitable-cpu-instruction-in-the-target-game)
+*   [Step 3: The MIPS Assembly Binary](#step-3-the-mips-assembly-binary)
+*   [Step 4: Gathe Inputs For Code Creation](#step-4-gather-inputs-for-code-creation)
+*   [Step 5: Generate Codes](#step-5-generate-codes)
 *   [License](#license)
-*   [Compiling From Source](#compiling-from-source)
+*   [Compile From Source](#compile-from-source)
 *   [Credits](#credits)
 
-## Creating A GSHAX Code With GSHAX Tool Mode 0
+## Usage
 
-*   [Step 1: Emulator Setup](#step-1-emulator-setup-mode-0)
-*   [Step 2: Get The Target Function RA Value](#step-2-get-the-target-function-ra-value-mode-0)
-*   [Step 3: Get The RAM Address That The Target RA Is Loaded From](#step-3-get-the-ram-address-that-the-target-ra-is-loaded-from-mode-0)
-*   [Step 4: Find An Unused Portion Of Zeroed Out Memory In RAM](#step-4-find-an-unused-portion-of-zeroed-out-memory-in-ram-mode-0)
-*   [Step 5: Decide On Output Mode](#step-5-decide-on-output-mode-mode-0)
-*   [Step 6: Output Filename](#step-6-output-filename-mode-0)
-*   [Step 7: MIPS Assembly Binary For Conversion To GameShark Code Filename](#step-7-mips-assembly-binary-for-conversion-to-gameshark-code-filename-mode-0)
-*   [Step 8: Offset Value Cutoff For MIPS Assembly Binary](#step-8-offset-value-cutoff-for-mips-assembly-binary-mode-0)
+GSHAX Tool generates game specific codes. As one game can have different regional releases, updated versions, or multiple discs, it may or may not be required to find new codes for the various scenarios above.
 
-GSHAX Tool is a command line program which **requires 7 arguments in Mode 0**, as described below:
+## Step 1: Setup The DuckStation Emulator
 
-1) - The [output mode](#step-5-decide-on-output-mode-mode-0) (-t for .txt, -g for gslite save game file).
-2) - The RAM address that the target RA value is loaded [from](#step-3-get-the-ram-address-that-the-target-ra-is-loaded-from-mode-0).
-3) - The [target RA value](#step-2-get-the-target-function-ra-value-mode-0).
-4) - The [new RA value](#step-4-find-an-unused-portion-of-zeroed-out-memory-in-ram-mode-0) that doubles as the start addr to the MIPS assembly binary in RAM.
-5) - The [filename](#step-7-mips-assembly-binary-for-conversion-to-gameshark-code-filename-mode-0) of the MIPS assembly binary you want to replace the in game function with.
-6) - The [offset](#step-8-offset-value-cutoff-for-mips-assembly-binary-mode-0) of the MIPS assembly binary (without padding).
-7) - The [filename](#step-6-output-filename-mode-0) of the output generated by GSHAX Tool.
+GSHAX Tool is designed specifically with the [DuckStation](https://www.duckstation.org/) emulator in mind (all though other emulators, especially No $ PSX should work just as well). The DuckStation emulator's CPU Debugger feature is the easiest way to find the required input values to create a GSHAX code. It is not enabled by default, so this needs to be setup before continuing.
 
-So I ended up with 2 different commands for my [WipEout USA](http://redump.org/disc/2772/) GSHAX code:
-
-`./gshax -t 801FBDC8 8006C2C4 800CBA70 entry-bb.bin 0xb4 wipeout-code.txt`
-
-`./gshax -g 801FBDC8 8006C2C4 800CBA70 entry-bb.bin 0xb4 CODELIST00`
-
-The GSHAX codes in this example will change what happens when you press `START` at the WipEout title screen (the Tonyhax International loader will start).
-
-### Step 1: Emulator Setup (Mode 0)
-
-The first thing to do is fire up the target PSX game that you want to write a GSHAX code for in an emulator so that you can find the values required for input to GSHAX Tool. 
-
-In use the [DuckStation](https://www.duckstation.org/) PSX emulator to find GSHAX codes. In DuckStation you need to enable the `Show Developer Menu` option. This gives you access to the `CPU Debugger` feature of DuckStation that will be used later to figure out the necessary GSHAX input values to create GSHAX codes.
+After starting the DuckStation emulator, you need to enable the `Show Developer Menu` option. This is what gives you access to the `CPU Debugger` feature. To do so, click on the `Settings` menu item at the top of the window, and then click `Advanced Settings` in the drop down menu selection as displayed below: 
 
 ![Open `Advanced Settings` in DuckStation](images/duckstation-advanced-settings.png)
+
+Ensure that the `Show Debug Menu` option in the `System Settings` section is enabled:
 
 ![Enable `Show Debug Menu` Option In DuckStation](images/duckstation-enable-debug-menu.png)
 
 Click `Close` at the bottom of the `Advanced Settings` window to apply the settings.
 
-### Step 2: Get The Target Function RA Value (Mode 0)
+If for some reason you had previously enabled the `8MB RAM` option in DuckStation, you must disable that (it is disabled by default so you shouldn't have to do this):
+
+![Ensure That The `Enable 8MB RAM (Dev Console)` Option In DuckStation Is Disabled](images/duckstation-ensure-8mb-ram-is-disabled.png)
+
+At this point DuckStation is ready to be used for finding the required values to create GSHAX codes.
+
+## Step 2: Find An Exploitable CPU Instruction In The Target Game
 
 Start the game with the `.cue` file:
 
-![Start WipEout](images/duckstation-open-wipeout.png)
+![Start Ridge Racer](images/duckstation-start-ridge-racer.png)
 
-Go through the game until reaching the target function that will be modified. In my example with WipEout, I choose the title screen. At the title screen, I started the `CPU Debugger` option (which will pause emulation when opened). At the top right of the CPU Debugger is a box containing register values. I found the RA value `8006C2C4`. This is the value that will be replaced by a new one which points to our own MIPS assembly code, known as the 'old ra'. This will be the 3rd argument in our GSHAX Tool command.
+At the black PlayStation logo screen at boot, pause emulation to ensure that bringing up the CPU Debugger in the next step will not crash the emulator (this seems to be a Linux specific bug in the DuckStation emulator that does not occur on Windows):
 
-![Get Target Function RA Value](images/duckstation-wipeout-title-screen-ra.png)
+![Pause Ridge Racer Emulation](images/duckstation-pause-ridge-racer-for-cpu-debugger.png)
 
-### Step 3: Get The RAM Address That The Target RA Is Loaded From (Mode 0)
+With emulation paused, you can now bring up the CPU Debugger. Click the `Debug` menu option (that you previously enabled), and then click the `CPU Debugger` option in the drop down menu:
 
-Now I need to find an address which contains the known RA value `8006C2C4`, this must be the address in RAM that the game uses to get this RA value from. In DuckStation, I continued emulation by making the DuckStation WipEout emulation window active again and then pressed the start menu at the title screen. I then pulled back up the `CPU Debugger` immediately. Good news is, the RA value is still the same after pressing start on the title screen. Now, I'll search for the RA value in the current RAM. I need to do some byte swapping/moving for the search feature of DuckStation, so `8006C2C4` becomes `C4 C2 06 80`, which I can in fact search for and get exactly one match in RAM! This is definitely where the RA value, comes from. The address in the DuckStation `CPU Debugger` is: `001FBDC8`, which is really `801FBDC8` for our purposed with GSHAX codes.
+![Start The CPU Debugger](images/duckstation-start-cpu-debugger.png)
 
-![Get RAM Address That RA Value Is Loaded From](images/duckstation-wipeout-ra-value-at-address.png)
+With the CPU Debugger now ready, unpause emulation to get past the black Sony logo screen, and proceed into the game. Wait a few seconds after the black screen replaces the Sony screen (preferably until the game really starts displaying something in the DuckStation emulator window):
 
-### Step 4: Find An Unused Portion Of Zeroed Out Memory In RAM (Mode 0)
+![Unpause Emulation In The CPU Debugger Window](images/duckstation-unpause-emulation-in-cpu-debugger.png)
 
-Now we need to find a large chunk of unused, freely available RAM large enough to put the mips assembly binary at without conflicting with any existing game functions. Using the scroll bar in the `Memory` section of the `CPU Debugger` window at the bottom left, I found that there is a large section of zeroed out memory from RAM address `0x800CBA70` to `0x800CE138`, which is 9928 (0x26C8) bytes, way more then we need for the Tonyhax International v1.1.8 `entrypoints/entry-bb.bin` MIPS assembly! All we need for the `entrypoints/entry-bb.bin` MIPS assembly in theory is a `0xb5` section of zeroed out memory.
+Once you see the game really start, pause emulation again.
 
-![Free RAM Address Space](images/duckstation-wipeout-free-ram-start.png)
+![Pause Emulation When The Game Starts](images/duckstation-pause-emulation-at-game-start.png)
 
+With the game paused, you need to find an exploitable instruction. The idea is to scroll down in the DuckStation `Disassembly` section of the CPU Debugger from the current instruction at emulation pause (which is automatically highlighted when you pause emualtion, as displayed in the previous image), to identify either a `j` (jump to address) or `jal` (jump and link to address, which is the same thing but also sets the return address register to the address jumped to) instruction that will be executed at a specific time later in game execution. If you click where the mouse is in the image below, the `Memory` section of the CPU Debugger will jump to the RAM location of the CPU instruction itself:
 
-I decided on using the starting address of `0x800CBA70` to put the MIPS assembly binary at. It's a little after the start of the unused RAM section, for no real reason other then that's where I tried it first in testing.
+![Find Exploitable Instruction](images/duckstation-find-exploitable-instruction.png)
 
-### Step 5: Decide On Output Mode (Mode 0)
+If you click on the actual instruction itself, you can set a breakpoint which will be displayed in the `Breakpoints` section to the bottom right of the CPU Debugger window:
 
-GSHAX Tool can output the complete list of GSHAX codes to 2 formats. A simple .txt file containing all lines of code, or a real valid GameShark Lite save game file which contains all of the codes already entered/activated, which vastly improves how fast you can use GSHAX codes.
+![Set Breakpoint For Exploitable Instruction](images/duckstation-set-breakpoint.png)
 
-If you set the first argument to `-g` you will output a GameShark Lite save game file. If you set the first argument to `-t` you will output a `.txt` text file containing all code lines.
+Enabling the breakpoint will allow you to identify when the exploitable instruction is executed in the game. For this specific instruction, the breakpoint reveals that it can be executed at 3 places in the beginning of the game:
 
-### Step 6: Output Filename (Mode 0)
+1) When the Galaga mini game starts, it is executed once.
 
-The 7th argument must be the filename of the new file generated by GSHAX Tool. This must be named `CODELIST00` if you make a GameShark Lite save game file that GameShark Lite will use when copied to a PS1 memory card. 
+![Breakpoint 1](images/duckstation-first-breakpoint.png)
 
-The GameShark Lite save game file can be placed on a PS1 memory card using a soft-modded PS2 or other methods of writing custom files to PS1 memory cards. Once you have the memory card containing the **GameShark Lite save game file (must be named `CODELIST00`)** in slot 1 of your USA console:
+2) When shooting a spaceship in the Galaga mini game, it is executed each time right before a spaceship is destroyed.
 
-*   Turn on your console with the GameShark Lite disc in the closed CD drive.
-*   Wait for GameShark Lite to load through the `This product is NOT licensed or endorsed by SCEA` disclaimer, skip through the FMV, and then select the `Start GS lite` option in the GameShark Lite boot menu.
-*   The GameShark Lite reads from the memory card in slot 1 of the console at boot, looking for any GameShark Lite CD save files. If it finds one it will display the message `Codes Loaded. Press O`.
-*   After Pressing `O` you will be back at the GameShark Lite `Main Menu`. Use the `D-PAD` to navigate to the `Select Cheat Codes` option, and select it by pressing the `X` button.
-*   The game title named `A` will be automatically highlighted when you enter the `Select Cheat Codes` menu, which means the GSHAX codes will be automatically enabled. There are 2 codes for each GameSharkHAX game, so if you see in the bottom box the text `2 Cheat Codes Are On` for the `A` game title then you can simply press the `O` button to return to the `Main Menu`.
-*   Use the `D-PAD` to navigate to the `Start Game` option, and select it with the `X` button.
-*   In the `Start Game Options` menu, the `Start Game With Selected Codes` option will already be highlighted. Press the `X` button to select it. You will see a text box which says `Open PlayStation CD lid. Remove GameShark CD. Insert Game CD. Close CD lid.` follow those instructions, inserting the GameSharkHAX compatible game disc.
-*   Once the GameSharkHAX compatible game boots, go to the function modified by the GSHAX codes. In my example, I played to the title screen, and then pressed the start button.
+![Breakpoint 2](images/duckstation-second-breakpoint.png)
 
-### Step 7: MIPS Assembly Binary For Conversion To GameShark Code Filename (Mode 0)
+3) When you press the `start` button at the title screen and then at the game mode screen press `start` again, it will be executed once right before the real game play starts.
 
-The filename of the actual MIPS assembly binary is argument 5, in this example: `entry-bb.bin`.
+![Breakpoint 3](images/duckstation-third-breakpoint.png)
 
-### Step 8: Offset Value Cutoff For MIPS Assembly Binary (Mode 0)
+The breakpoint reveals this by automatically pausing emulation in the above 3 scenarios.
 
-The MIPS assembly binary must be **an even value no larger then 248 (0xF8) bytes in size**. In my example, I am using the size-optimized 1st stage loader used by some save game exploits in Tonyhax International. The `entrypoints/entry-bb.bin` MIPS assembly binary generated for Tonyhax International v1.1.8 is 192 (0xC0) bytes. This can be stripped to 180 bytes, or 0xb4 in hex however because there is nothing but 0x00 bytes after offset 0xb4 (and we are going to write it into a large space of zeroed out RAM already).
+Now that the instruction's execution points have been identified, it is important to realize that on real PSX hardware it takes a significant amount of time for GameShark codes to take effect and to be 'enabled' (at least with the GameShark CD versions for instance this has been verified to be true). For example, the first breakpoint trigger example above will never be able to be exploited on real hardware, because it happens to early in execution for the GameShark cheat engine to apply the codes. The second breakpoint trigger example can be triggered towards the end of the Galaga loading screen mini game if you constantly destroy spaceships during the entire loading screen. The third breakpoint trigger example above always can be exploited.
 
-![Only Bytes We Actually Need In entry-bb.bin](images/entry-bb.bin-stripped-bytes-for-wipeout.png)
+While DuckStation emulation is paused here, we need to find free RAM. This is a portion of RAM that consists of enough `0x00` bytes to place the custom MIPS assembly binary that we want to actually execute, which means it must be at least 2 bytes larger then the MIPS assembly binary itself. Scroll down in the CPU Debugger `Dissasembly` section until you encounter something like this, signifying the start of unused RAM:
 
-## Creating A GSHAX Code With GSHAX Tool Mode 1
+![Finding Free RAM Part 1](images/duckstation-finding-free-ram-part-1.png)
 
-*   [Step 1: Emulator Setup](#step-1-emulator-setup-mode-1)
-*   [Step 2: Decide On Output Mode](#step-2-decide-on-output-mode-mode-1)
-*   [Step 3: Find An exploitable JAL Destination Address](#step-3-find-an-exploitable-jal-destination-address-mode-1)
-*   [Step 4: Output Filename](#step-4-output-filename-mode-1)
-*   [Step 5: MIPS Assembly Binary For Conversion To GameShark Code Filename](#step-5-mips-assembly-binary-for-conversion-to-gameshark-code-filename-mode-1)
-*   [Step 6: Offset Value Cutoff For MIPS Assembly Binary](#step-6-offset-value-cutoff-for-mips-assembly-binary-mode-1)
+Now, I choose an address well past the start of unused RAM, not really for any reason other then good luck... I choose this address:
 
-GSHAX Tool is a command line program which **requires 5 arguments in Mode 1**, as described below:
+![Finding Free RAM Part 2](images/duckstation-finding-free-ram-part-2.png)
 
-1) - The [output mode](#step-2-decide-on-output-mode-mode-1) (-t for .txt, -g for gslite save game file).
-2) - The [exploitable JAL address](#step-3-find-an-exploitable-jal-destination-address-mode-1).
-3) - The [filename](#step-4-mips-assembly-binary-for-conversion-to-gameshark-code-filename-mode-1) of the MIPS assembly binary you want to replace the in game function with.
-4) - The [offset](#step-6-offset-value-cutoff-for-mips-assembly-binary-mode-1) of the MIPS assembly binary (without padding).
-5) - The [filename](#step-4-output-filename-mode-1) of the output generated by GSHAX Tool.
+**Important Info:** I have a theory that the memory cards must be initialized by the game code before the exploitable instruction is executed. While most games do this almost immediately, some games appear to not do so until entering the memory card handling functions (save/load game in the main menu for instance). WipEout appears to be like this.
 
-So I ended up with 2 different commands for my [Parasite Eve USA Disc 1 or Disc 2](http://redump.org/disc/116/) GSHAX code:
+## Step 4: The MIPS Assembly Binary
 
-`./gshax -t 80073BBC entry-bb.bin 0xb6 parasite-eve-code.txt`
+As the goal is to run your own MIPS assembly binary instead of the in-game function normally jumped or jump and linked to, you need a MIPS assembly binary file to run.
 
-`./gshax -g 80073BBC entry-bb.bin 0xb6 CODELIST00`
+The original Tonyhax uses a stage 1 loader, which is a small bit of assembly executed during a save game exploit which loads the Tonyhax PS-EXE file found on the memory card in slot 1.
 
-The GSHAX codes in this example will change what happens when Parasite Eve boots. Instead of displaying the intro FMVs, the Tonyhax International loader will start after a brief black screen and some disc seeks (which is the only code from the original game that still runs with this code enabled, actually).
+Tonyhax International has an extremely cut down version of the original stage 1 loader available, found at `entrypoints/entry-bb.bin` in the Tonyhax International releases. The extremely cut down version of the stage 1 loader is used in save game exploits for games such as Tekken 2, Tekken 3, and Final Fantasy IV, all which require a smaller loader then what the original Tonyhax used. This is important for GSHAX Tool because the larger the size of the MIPS assembly binary, the more GameShark code lines that are required. Every 2 bytes of the MIPS assembly binary requires an additional GameShark code line. There is also a current file size limit (that may be extended, it just hasn't been needed yet).  
 
-### Step 1: Emulator Setup (Mode 1)
+The MIPS assembly binary itself can be no more the `0xF8` bytes in size. The Tonyhax International `entrypoints/entry-bb.bin` file is `0xb4` bytes in when you ignore the padding of `0x00` bytes in this file:
 
-The first thing to do is fire up the target PSX game that you want to write a GSHAX code for in an emulator so that you can find the values required for input to GSHAX Tool. 
+![Padding In Assembly Binary](images/padding-in-assembly-binary.png)
 
-In use the [DuckStation](https://www.duckstation.org/) PSX emulator to find GSHAX codes. In DuckStation you need to enable the `Show Developer Menu` option. This gives you access to the `CPU Debugger` feature of DuckStation that will be used later to figure out the necessary GSHAX input values to create GSHAX codes.
+The padding can be ignored, because we are putting this in a free RAM location already full of `0x00` bytes, some of which will be overwrited by the MIPS assembly binary itself.
 
-![Open `Advanced Settings` in DuckStation](images/duckstation-advanced-settings.png)
+## Step 4: Gather Inputs For Code Creation
 
-![Enable `Show Debug Menu` Option In DuckStation](images/duckstation-enable-debug-menu.png)
+In this example, we now have all we need to use GSHAX Tool. GSHAX Tool requires 8 arguments, I'll elaborate what each one is for this example:
 
-Click `Close` at the bottom of the `Advanced Settings` window to apply the settings.
+1) `-g` (for generating a GameShark Lite save game file containing all the codes) or `-t` (to specify writing all the codes to a `.txt` file).
 
-### Step 2: Decide On Output Mode (Mode 1)
+2) `8004EB1C` (this is the address in RAM that the jump instruction is loaded to by the game).
 
-GSHAX Tool can output the complete list of GSHAX codes to 2 formats. A simple .txt file containing all lines of code, or a real valid GameShark Lite save game file which contains all of the codes already entered/activated, which vastly improves how fast you can use GSHAX codes.
+3) `-j` (The exploitable instruction is a jump instruction in this example). Alternatively, this could have been `-jal` if the instruction had been instead a jump and link instruction.
 
-If you set the first argument to `-g` you will output a GameShark Lite save game file. If you set the first argument to `-t` you will output a `.txt` text file containing all code lines.
+4) `8004EB54` (this is the address jumped to by the jump instruction, as displayed in the `Disassembly` section of the DuckStation CPU Debugger window). Alternatively, this could have been the address that was jump and linked to if I was using a JAL instruction instead.
 
+5) `8007FA30` (this is an address in RAM, that at the time of execution of the exploitable instruction, is not being used by the game. It contains a constant string of `0x00` bytes that are at least longer then the length of the custom MIPS assembly we want to execute by placing at this address).
 
-### Step 3: Find An Exploitable JAL Destination Address (Mode 1)
+6) `./entry-bb.bin` (this is the MIPS assembly binary that will be executed when the modified exploitable instruction jumps to the free RAM address).
 
-This is the tricky bit, and it won't work for every game. Somehow, it does work for Parasite Eve USA (Disc 1 or Disc 2).
+7) `0xb4` (this is the size of the MIPS assembly binary after stripping off all of the `0x00` byte padding generated by the compiler. Since the 0x00 bytes are already available in the free RAM location, I don't need to set them via GameShark codes). This value must be less then `0xF8`, and it must be even.
 
-You need to find a JAL (Jump and Link) instruction that goes to an area of RAM that:
+8) `CODELIST00` (if the output mode is `-g` for generating a GameShark Lite save game file) or `ridge-racer-usa-gshax-code.txt` (if the output mode is `-t` for generating a `.txt` file).
 
-*   Is not in the same area of RAM being used by that function.
-*   Has not been used previously by the BIOS/kernel and any game function up to the point of the JAL.
-*   When overwritten, does not screw up the surrounding code.
+## Step 5: Putting It All Together
 
-With some luck, you may find what your looking for, the perfect JAL. In Parasite Eve USA, this JAL is found at `0x80073B18`, which jumps and links to `0x80073BBC`:
+With all of this information, we can now figure out a GSHAX Tool command for the game, Ridge Racer (USA version).
 
-![Parasite Eve JAL](images/parasite-eve-jal.png)
+To generate GameShark codes and output them to a `.txt` file:
 
-![Parasite Eve JAL Destination](images/parasite-eve-jal-destination.png)
+`./gshax -t 8004EB1C -j 8004EB54 8007FA30 ./entry-bb.bin 0xb4 ridge-racer-usa-gshax-code.txt`
 
-So that magic number **`0x80073BBC` is the second argument** to GSHAX Tool in Mode 1 for this code.
+![Ridge Racer USA Code Generation To TXT File](images/ridge-racer-txt-example.png)
 
-### Step 4: Output Filename (Mode 1)
+To generate a GameShark Lite save game file containing the codes:
 
-The 7th argument must be the filename of the new file generated by GSHAX Tool. This must be named `CODELIST00` if you make a GameShark Lite save game file that GameShark Lite will use when copied to a PS1 memory card. 
+`./gshax -g 8004EB1C -j 8004EB54 8007FA30 ./entry-bb.bin 0xb4 CODELIST00`
 
-The GameShark Lite save game file can be placed on a PS1 memory card using a soft-modded PS2 or other methods of writing custom files to PS1 memory cards. Once you have the memory card containing the **GameShark Lite save game file (must be named `CODELIST00`)** in slot 1 of your USA console:
-
-*   Turn on your console with the GameShark Lite disc in the closed CD drive.
-*   Wait for GameShark Lite to load through the `This product is NOT licensed or endorsed by SCEA` disclaimer, skip through the FMV, and then select the `Start GS lite` option in the GameShark Lite boot menu.
-*   The GameShark Lite reads from the memory card in slot 1 of the console at boot, looking for any GameShark Lite CD save files. If it finds one it will display the message `Codes Loaded. Press O`.
-*   After Pressing `O` you will be back at the GameShark Lite `Main Menu`. Use the `D-PAD` to navigate to the `Select Cheat Codes` option, and select it by pressing the `X` button.
-*   The game title named `A` will be automatically highlighted when you enter the `Select Cheat Codes` menu, which means the GSHAX codes will be automatically enabled. There are 2 codes for each GameSharkHAX game, so if you see in the bottom box the text `2 Cheat Codes Are On` for the `A` game title then you can simply press the `start` button to continue to the `Start Game Options` menu.
-*   In the `Start Game Options` menu, the `Start Game With Selected Codes` option will already be highlighted. Press the `X` button to select it. You will see a text box which says `Open PlayStation CD lid. Remove GameShark CD. Insert Game CD. Close CD lid.` follow those instructions, inserting the GameSharkHAX compatible game disc.
-*   Once the GameSharkHAX compatible game boots, go to the function modified by the GSHAX codes. In my example, I played to the title screen, and then pressed the start button.
-
-### Step 5: MIPS Assembly Binary For Conversion To GameShark Code Filename (Mode 1)
-
-**The filename of the actual MIPS assembly binary is argument 3**, in this example: `entry-bb.bin`.
-
-### Step 6: Offset Value Cutoff For MIPS Assembly Binary (Mode 1)
-
-The MIPS assembly binary must be **an even value no larger then 248 (0xF8) bytes in size**. In my example, I am using the size-optimized 1st stage loader used by some save game exploits in Tonyhax International. The `entrypoints/entry-bb.bin` MIPS assembly binary generated for Tonyhax International v1.1.9 is 192 (0xC0) bytes. This can be stripped to 182 bytes, or 0xb6 in hex however because there is nothing but 0x00 bytes after offset 0xb4 (we only need termination of the file at the end since it is not guaranteed in RAM).
-
-![Only Bytes We Actually Need In entry-bb.bin](images/entry-bb.bin-stripped-bytes-for-parasite-eve.png)
-
-This means **the 4th argument is `0xb6`** in this example (although strangely, `0xb4` seems to work OK for Parasite Eve?).
+![Ridge Racer USA Code Generation To GameShark Lite Save Game File](images/ridge-racer-gslite-save-example.png)
 
 ## License
 
@@ -247,4 +187,4 @@ GSHAX Tool is open source software released under the 3-BSD license. Please see 
 
 ## Credits
 
-Huge thanks to MottZilla for helping reverse how the GameShark Lite save game file is read and generated, most notably how the checksum and checked area is calculated.
+Huge thanks to MottZilla for helping reverse how the GameShark Lite save game file is read and generated, most notably how the checksum and checked area is calculated. MottZilla also helped make the new v2.0 methods that edit an existing JAL or JMP instruction a reality!
