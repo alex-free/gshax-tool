@@ -16,30 +16,31 @@ As an example of usefulness, GSHAX codes are [used](https://github.com/alex-free
 *	[Github](https://github.com/alex-free/gshax-tool)
 *	[Tonyhax International](https://alex-free.github.io/tonyhax-international)
 *   [PSXDev Research Thread On GSHAX Codes](http://www.psxdev.net/forum/viewtopic.php?f=70&t=4032)
+*   [GBATemp Thread](https://gbatemp.net/threads/gshax-tool-create-psx-gameshark-codes-that-gain-code-execution-mid-game.625277/)
 
 ## Downloads
 
-### Version 2.0 (3/28/2023)
+### Version 2.0.1 (4/3/2023)
 
-*	[gshax-tool-v2.0-windows\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-windows_x86.zip) _For Windows 95 OSR 2.5 Or Newer (32-bit Windows)_
-*	[gshax-tool-v2.0-windows\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-windows_x86_64.zip) _For 64-bit Windows_
-*	[gshax-tool-v2.0-linux\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-linux_x86_static.zip) _For x86 Linux Distros_
-*	[gshax-tool-v2.0-linux\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0/gshax-tool-v2.0-linux_x86_64_static.zip) _For x86\_64 Linux Distros_
-*	[gshax-tool-v2.0-source](https://github.com/alex-free/gshax-tool/archive/refs/tags/v2.0.zip)
+*	[gshax-tool-v2.0.1-windows\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-windows_x86.zip) _For Windows 95 OSR 2.5 Or Newer (32-bit Windows)_
+*	[gshax-tool-v2.0.1-windows\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-windows_x86_64.zip) _For 64-bit Windows_
+*	[gshax-tool-v2.0.1-linux\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-linux_x86_static.zip) _For x86 Linux Distros_
+*	[gshax-tool-v2.0.1-linux\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-linux_x86_64_static.zip) _For x86\_64 Linux Distros_
+*	[gshax-tool-v2.0.1-source](https://github.com/alex-free/gshax-tool/archive/refs/tags/v2.0.1.zip)
 
 Changes:
 
-*   GSHAX Tool now requires 8 arguments, as it now uses a completely new method to edit either an existing jump or jump and link in-game instruction. This is a total rewrite, which removes the kludges that were the original 'mode 0' and 'mode 1' functionalities. It enables generating codes for any game (in theory).
+*   The MIPS assembly binary padding offset is now calculated automatically by the tool itself, which means GSHAX Tool now requires 7 arguments instead of 8. 
 
 [About previous versions.](changelog.md)
 
 ## Table Of Contents
 
 *   [Usage](#usage)
-*   [Step 1: Setup The DuckStation Emulator](#step-1-setup-the-duckstation)
+*   [Step 1: Setup The DuckStation Emulator](#step-1-setup-the-duckstation-emulator)
 *   [Step 2: Find An Exploitable CPU Instruction In The Target Game](#step-2-find-an-exploitable-cpu-instruction-in-the-target-game)
 *   [Step 3: The MIPS Assembly Binary](#step-3-the-mips-assembly-binary)
-*   [Step 4: Gathe Inputs For Code Creation](#step-4-gather-inputs-for-code-creation)
+*   [Step 4: Gather Inputs For Code Creation](#step-4-gather-inputs-for-code-creation)
 *   [Step 5: Generate Codes](#step-5-generate-codes)
 *   [License](#license)
 *   [Compile From Source](#compile-from-source)
@@ -127,7 +128,7 @@ Now, I choose an address well past the start of unused RAM, not really for any r
 
 **Important Info:** I have a theory that the memory cards must be initialized by the game code before the exploitable instruction is executed. While most games do this almost immediately, some games appear to not do so until entering the memory card handling functions (save/load game in the main menu for instance). WipEout appears to be like this.
 
-## Step 4: The MIPS Assembly Binary
+## Step 3: The MIPS Assembly Binary
 
 As the goal is to run your own MIPS assembly binary instead of the in-game function normally jumped or jump and linked to, you need a MIPS assembly binary file to run.
 
@@ -135,15 +136,15 @@ The original Tonyhax uses a stage 1 loader, which is a small bit of assembly exe
 
 Tonyhax International has an extremely cut down version of the original stage 1 loader available, found at `entrypoints/entry-bb.bin` in the Tonyhax International releases. The extremely cut down version of the stage 1 loader is used in save game exploits for games such as Tekken 2, Tekken 3, and Final Fantasy IV, all which require a smaller loader then what the original Tonyhax used. This is important for GSHAX Tool because the larger the size of the MIPS assembly binary, the more GameShark code lines that are required. Every 2 bytes of the MIPS assembly binary requires an additional GameShark code line. There is also a current file size limit (that may be extended, it just hasn't been needed yet).  
 
-The MIPS assembly binary itself can be no more the `0xF8` bytes in size. The Tonyhax International `entrypoints/entry-bb.bin` file is `0xb4` bytes in when you ignore the padding of `0x00` bytes in this file:
+The MIPS assembly binary itself can be no more the `0xF8` bytes in size, ignoring any `0x00` trailing padding bytes at the end of the file. GSHAX Tool automatically ignores any `0x00` byte padding when reading the mips assembly binary, so it will let you know if the MIPS assembly binary is too large to use with the tool. 
+
+For example, the Tonyhax International `entrypoints/entry-bb.bin` file is `0xC0` bytes in size. However GSHAX Tool ignores the trailing `0x00` bytes (which you can see in i.e. the hex editor image below), which means really it is `0xb4` bytes as far as GSHAX Tool is concerned.
 
 ![Padding In Assembly Binary](images/padding-in-assembly-binary.png)
 
-The padding can be ignored, because we are putting this in a free RAM location already full of `0x00` bytes, some of which will be overwrited by the MIPS assembly binary itself.
-
 ## Step 4: Gather Inputs For Code Creation
 
-In this example, we now have all we need to use GSHAX Tool. GSHAX Tool requires 8 arguments, I'll elaborate what each one is for this example:
+In this example, we now have all we need to use GSHAX Tool. GSHAX Tool requires 7 arguments, I'll elaborate what each one is for this example:
 
 1) `-g` (for generating a GameShark Lite save game file containing all the codes) or `-t` (to specify writing all the codes to a `.txt` file).
 
@@ -157,23 +158,21 @@ In this example, we now have all we need to use GSHAX Tool. GSHAX Tool requires 
 
 6) `./entry-bb.bin` (this is the MIPS assembly binary that will be executed when the modified exploitable instruction jumps to the free RAM address).
 
-7) `0xb4` (this is the size of the MIPS assembly binary after stripping off all of the `0x00` byte padding generated by the compiler. Since the 0x00 bytes are already available in the free RAM location, I don't need to set them via GameShark codes). This value must be less then `0xF8`, and it must be even.
+7) `CODELIST00` (if the output mode is `-g` for generating a GameShark Lite save game file) or `ridge-racer-usa-gshax-code.txt` (if the output mode is `-t` for generating a `.txt` file).
 
-8) `CODELIST00` (if the output mode is `-g` for generating a GameShark Lite save game file) or `ridge-racer-usa-gshax-code.txt` (if the output mode is `-t` for generating a `.txt` file).
-
-## Step 5: Putting It All Together
+## Step 5: Generate Codes
 
 With all of this information, we can now figure out a GSHAX Tool command for the game, Ridge Racer (USA version).
 
 To generate GameShark codes and output them to a `.txt` file:
 
-`./gshax -t 8004EB1C -j 8004EB54 8007FA30 ./entry-bb.bin 0xb4 ridge-racer-usa-gshax-code.txt`
+`./gshax -t 8004EB1C -j 8004EB54 8007FA30 ./entry-bb.bin ridge-racer-usa-gshax-code.txt`
 
 ![Ridge Racer USA Code Generation To TXT File](images/ridge-racer-txt-example.png)
 
 To generate a GameShark Lite save game file containing the codes:
 
-`./gshax -g 8004EB1C -j 8004EB54 8007FA30 ./entry-bb.bin 0xb4 CODELIST00`
+`./gshax -g 8004EB1C -j 8004EB54 8007FA30 ./entry-bb.bin CODELIST00`
 
 ![Ridge Racer USA Code Generation To GameShark Lite Save Game File](images/ridge-racer-gslite-save-example.png)
 
@@ -181,10 +180,14 @@ To generate a GameShark Lite save game file containing the codes:
 
 GSHAX Tool is open source software released under the 3-BSD license. Please see the file `license.txt` in each GSHAX Tool release for full info.
 
-## Compiling From Source
+## Compile From Source
 
 [Download](#downloads) the source, and simply execute `make`.
 
 ## Credits
 
-Huge thanks to MottZilla for helping reverse how the GameShark Lite save game file is read and generated, most notably how the checksum and checked area is calculated. MottZilla also helped make the new v2.0 methods that edit an existing JAL or JMP instruction a reality!
+*   [MottZilla](http://www.psxdev.net/forum/memberlist.php?mode=viewprofile&u=867) for helping reverse how the GameShark Lite save game file is read and generated, most notably how the checksum and checked area is calculated. MottZilla also helped make the new v2.0 methods that edit an existing JAL or JMP instruction a reality!
+
+*   [Socram8888](https://github.com/socram8888), who wrote the original `entry.bin` for the original [Tonyhax](https://github.com/socram8888/tonyhax). Without that starting point, I would have never have been able to pull this whole thing off.
+
+*   [James S Kingdom](https://sites.google.com/site/jamesskingdom/Home/game-codes-by-james-s/super-mario-64-codes/sm64-n64-spawn-codes) for writing N64 GameShark codes that executed assembly to provide custom in-game functions such as the spawn anything, anywhere codes. This is what gave me the idea to try this insane thing to begin with.

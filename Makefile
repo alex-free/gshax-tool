@@ -1,7 +1,7 @@
 # gshax tool GNUMakefile by Alex Free
 CC=gcc
 CFLAGS=-Wall -Werror
-VER=2.0
+VER=2.0.1
 
 gshax: clean
 	$(CC) $(CFLAGS) gshax.c -o gshax
