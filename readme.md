@@ -22,10 +22,10 @@ As an example of usefulness, GSHAX codes are [used](https://github.com/alex-free
 
 ### Version 2.0.1 (4/3/2023)
 
-*	[gshax-tool-v2.0.1-windows\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-windows_x86.zip) _For Windows 95 OSR 2.5 Or Newer (32-bit Windows)_
-*	[gshax-tool-v2.0.1-windows\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-windows_x86_64.zip) _For 64-bit Windows_
-*	[gshax-tool-v2.0.1-linux\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-linux_x86_static.zip) _For x86 Linux Distros_
-*	[gshax-tool-v2.0.1-linux\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-v2.0.1-linux_x86_64_static.zip) _For x86\_64 Linux Distros_
+*	[gshax-tool-v2.0.1-windows\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-2.0.1-windows_x86.zip) _For Windows 95 OSR 2.5 Or Newer (32-bit Windows)_
+*	[gshax-tool-v2.0.1-windows\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-2.0.1-windows_x86_64.zip) _For 64-bit Windows_
+*	[gshax-tool-v2.0.1-linux\_x86](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-2.0.1-linux_x86_static.zip) _For x86 Linux Distros_
+*	[gshax-tool-v2.0.1-linux\_x86\_64](https://github.com/alex-free/gshax-tool/releases/download/v2.0.1/gshax-tool-2.0.1-windows_x86_64.zip) _For x86\_64 Linux Distros_
 *	[gshax-tool-v2.0.1-source](https://github.com/alex-free/gshax-tool/archive/refs/tags/v2.0.1.zip)
 
 Changes:
